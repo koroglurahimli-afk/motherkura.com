@@ -1,0 +1,187 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Kura River Project — Danger Zones Map</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    html, body { height:100%; margin:0; }
+    #map { height:100%; width:100%; }
+    .legend {
+      position: fixed; bottom: 18px; left: 18px; z-index: 9999;
+      background: rgba(255,255,255,.95); padding: 10px 12px; border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+      font: 13px/1.35 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      border: 1px solid rgba(15,23,42,.10);
+      max-width: 320px;
+    }
+    .legend .t { font-weight: 800; margin-bottom: 6px; }
+    .legend .row { display:flex; align-items:center; gap:8px; margin: 4px 0; }
+    .dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+    .drop-icon svg { display:block; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+
+<div class="legend">
+  <div class="t">Legend</div>
+  <div class="row"><span class="dot" style="background:#1F6FEB;"></span><span><b>Kura River</b> (highlight)</span></div>
+  <div class="row"><span class="dot" style="background:#d64545;"></span><span>Danger zones (low-water / stress)</span></div>
+  <div class="row"><span class="dot" style="background:#22C55E;"></span><span>Normal water level zone</span></div>
+</div>
+<script>
+  const map = L.map('map', { center: [40.4, 47.6], zoom: 7, zoomControl: true });
+
+  const esriSat = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    { attribution: "Tiles © Esri" }
+  ).addTo(map);
+
+  const esriLabels = L.tileLayer(
+    "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+    { attribution: "Labels © Esri" }
+  );
+
+  const osm = L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    { attribution: "© OpenStreetMap contributors" }
+  );
+
+  
+  const dangerLayer = L.featureGroup();
+
+  // Kura River line
+  
+  // Kura River (emphasis polyline — approximate)
+  const kuraRiver = L.polyline([[41.822600,44.760000],[41.683100,44.826600],[41.120000,45.170000],[40.770000,47.059000],[40.617000,47.150000],[40.008690,48.477010],[39.596200,48.984800],[39.376800,49.247000]], {
+    color: "#1F6FEB",
+    weight: 5,
+    opacity: 0.9
+  }).bindTooltip("Kura River", { sticky: true });
+
+  kuraRiver.addTo(map);
+
+  // Normal zones
+  
+  const normalLayer = L.featureGroup();
+
+  L.circleMarker([40.770000, 47.059000], {
+    color: "#16A34A",
+    weight: 3,
+    radius: 7,
+    fillColor: "#22C55E",
+    fillOpacity: 0.9
+  })
+  .bindPopup(`<b>Mingəçevir — Normal water level</b><br/>Reference point marked as normal water level.<br/><span style="color:#64748b;font-size:12px">Lat 40.770000, Lon 47.059000</span>`)
+  .bindTooltip(`🟩 Mingəçevir — Normal water level`, { sticky: true })
+  .addTo(normalLayer);
+
+  normalLayer.addTo(map);
+
+
+  L.circleMarker([41.683100, 44.826600], {
+    color: "#d64545",
+    weight: 3,
+    radius: 7,
+    fillColor: "#d64545",
+    fillOpacity: 0.9
+  })
+  .bindPopup(`<b>Ortachala HPP – Tbilisi</b><br/>Temporary river level drawdowns during operations (2025).<br/><span style="color:#64748b;font-size:12px">Lat 41.683100, Lon 44.826600</span>`)
+  .bindTooltip(`🟥 Ortachala HPP – Tbilisi`, { sticky: true })
+  .addTo(dangerLayer);
+
+  L.circleMarker([41.822600, 44.760000], {
+    color: "#d64545",
+    weight: 3,
+    radius: 7,
+    fillColor: "#d64545",
+    fillOpacity: 0.9
+  })
+  .bindPopup(`<b>Zahesi HPP – Tbilisi/Mtskheta</b><br/>Maintenance activities periodically lowering levels (2025).<br/><span style="color:#64748b;font-size:12px">Lat 41.822600, Lon 44.760000</span>`)
+  .bindTooltip(`🟥 Zahesi HPP – Tbilisi/Mtskheta`, { sticky: true })
+  .addTo(dangerLayer);
+
+  L.circleMarker([39.376800, 49.247000], {
+    color: "#d64545",
+    weight: 3,
+    radius: 7,
+    fillColor: "#d64545",
+    fillOpacity: 0.9
+  })
+  .bindPopup(`<b>Neftçala – Kura River mouth</b><br/>Low flow and saline intrusion/drying tendencies at the delta.<br/><span style="color:#64748b;font-size:12px">Lat 39.376800, Lon 49.247000</span>`)
+  .bindTooltip(`🟥 Neftçala – Kura River mouth`, { sticky: true })
+  .addTo(dangerLayer);
+
+  L.circleMarker([39.596200, 48.984800], {
+    color: "#d64545",
+    weight: 3,
+    radius: 7,
+    fillColor: "#d64545",
+    fillOpacity: 0.9
+  })
+  .bindPopup(`<b>Salyan – Lower Kura reach</b><br/>Dry-season exposure of riverbed sections reported in recent years.<br/><span style="color:#64748b;font-size:12px">Lat 39.596200, Lon 48.984800</span>`)
+  .bindTooltip(`🟥 Salyan – Lower Kura reach`, { sticky: true })
+  .addTo(dangerLayer);
+
+  L.circleMarker([40.008690, 48.477010], {
+    color: "#d64545",
+    weight: 3,
+    radius: 7,
+    fillColor: "#d64545",
+    fillOpacity: 0.9
+  })
+  .bindPopup(`<b>Sabirabad – Kura–Aras confluence</b><br/>Hydrologically sensitive confluence with notable seasonal variability.<br/><span style="color:#64748b;font-size:12px">Lat 40.008690, Lon 48.477010</span>`)
+  .bindTooltip(`🟥 Sabirabad – Kura–Aras confluence`, { sticky: true })
+  .addTo(dangerLayer);
+
+  L.circleMarker([40.617000, 47.150000], {
+    color: "#d64545",
+    weight: 3,
+    radius: 7,
+    fillColor: "#d64545",
+    fillOpacity: 0.9
+  })
+  .bindPopup(`<b>Yevlax – Middle Kura</b><br/>Low-water spot (monitoring point).<br/><span style="color:#64748b;font-size:12px">Lat 40.617000, Lon 47.150000</span>`)
+  .bindTooltip(`🟥 Yevlax – Middle Kura`, { sticky: true })
+  .addTo(dangerLayer);
+
+  L.circleMarker([41.120000, 45.170000], {
+    color: "#d64545",
+    weight: 3,
+    radius: 7,
+    fillColor: "#d64545",
+    fillOpacity: 0.9
+  })
+  .bindPopup(`<b>Qarayazı DTQ (reserve vicinity)</b><br/>Within Kura riparian zone; integrate as monitoring point.<br/><span style="color:#64748b;font-size:12px">Lat 41.120000, Lon 45.170000</span>`)
+  .bindTooltip(`🟥 Qarayazı DTQ (reserve vicinity)`, { sticky: true })
+  .addTo(dangerLayer);
+
+  dangerLayer.addTo(map);
+
+  const overlayControl = {
+    "Kura River (highlight)": kuraRiver,
+    "Danger zones (low water / stress)": dangerLayer,
+    "Normal water level": normalLayer,
+    "Place labels": esriLabels
+  };
+
+
+  L.control.layers(
+    {
+      "Satellite (Earth-style)": esriSat,
+      "OpenStreetMap": osm
+    },
+    overlayControl,
+    { collapsed: false }
+  ).addTo(map);
+
+  // Default: satellite + labels ON
+  esriLabels.addTo(map);
+</script>
+
+</body>
+</html>

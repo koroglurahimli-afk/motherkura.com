@@ -1,0 +1,439 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Kura River Project — Schools Map</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    html, body { height:100%; margin:0; }
+    #map { height:100%; width:100%; }
+    .legend {
+      position: fixed; bottom: 18px; left: 18px; z-index: 9999;
+      background: rgba(255,255,255,.95); padding: 10px 12px; border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.12);
+      font: 13px/1.35 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      border: 1px solid rgba(15,23,42,.10);
+      max-width: 320px;
+    }
+    .legend .t { font-weight: 800; margin-bottom: 6px; }
+    .legend .row { display:flex; align-items:center; gap:8px; margin: 4px 0; }
+    .dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+    .drop-icon svg { display:block; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+
+<div class="legend">
+  <div class="t">Legend</div>
+  <div class="row"><span class="dot" style="background:#1F6FEB;"></span><span><b>Kura River</b> (highlight)</span></div>
+  <div class="row"><span class="dot" style="background:#1f3cff;"></span><span>Participating school (blue drop)</span></div>
+  <div class="row"><span class="dot" style="background:#22C55E;"></span><span>Normal water level zone</span></div>
+</div>
+<script>
+  const map = L.map('map', { center: [40.33, 49.9], zoom: 7, zoomControl: true });
+
+  const esriSat = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    { attribution: "Tiles © Esri" }
+  ).addTo(map);
+
+  const esriLabels = L.tileLayer(
+    "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+    { attribution: "Labels © Esri" }
+  );
+
+  const osm = L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    { attribution: "© OpenStreetMap contributors" }
+  );
+
+  
+  const schoolsLayer = L.featureGroup();
+  const dropIcon = L.divIcon({
+    className: 'drop-icon',
+    html: `<svg width="28" height="36" viewBox="0 0 28 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path d="M14 1C14 1 4 13 4 20.5C4 28 8.9 35 14 35C19.1 35 24 28 24 20.5C24 13 14 1 14 1Z" fill="#1f3cff" stroke="rgba(15,23,42,.25)" stroke-width="1.2"/>
+  <circle cx="18" cy="19" r="4.2" fill="rgba(255,255,255,.35)"/>
+</svg>`,
+    iconSize: [28, 36],
+    iconAnchor: [14, 36],
+    popupAnchor: [0, -34]
+  });
+
+  // Kura River line
+  
+  // Kura River (emphasis polyline — approximate)
+  const kuraRiver = L.polyline([[41.822600,44.760000],[41.683100,44.826600],[41.120000,45.170000],[40.770000,47.059000],[40.617000,47.150000],[40.008690,48.477010],[39.596200,48.984800],[39.376800,49.247000]], {
+    color: "#1F6FEB",
+    weight: 5,
+    opacity: 0.9
+  }).bindTooltip("Kura River", { sticky: true });
+
+  kuraRiver.addTo(map);
+
+  // Normal zones
+  
+  const normalLayer = L.featureGroup();
+
+  L.circleMarker([40.770000, 47.059000], {
+    color: "#16A34A",
+    weight: 3,
+    radius: 7,
+    fillColor: "#22C55E",
+    fillOpacity: 0.9
+  })
+  .bindPopup(`<b>Mingəçevir — Normal water level</b><br/>Reference point marked as normal water level.<br/><span style="color:#64748b;font-size:12px">Lat 40.770000, Lon 47.059000</span>`)
+  .bindTooltip(`🟩 Mingəçevir — Normal water level`, { sticky: true })
+  .addTo(normalLayer);
+
+  normalLayer.addTo(map);
+
+
+
+  L.marker([39.589167, 47.631389], { icon: dropIcon })
+    .bindPopup(`<b>Füzuli rayonu 59N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 39.589167, Lon 47.631389`)
+    .bindTooltip(`Füzuli rayonu 59N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.433889, 49.958056], { icon: dropIcon })
+    .bindPopup(`<b>Nazim İsmayılov adına 80N-li tam orta məktəb</b><br/>Lat 40.433889, Lon 49.958056`)
+    .bindTooltip(`Nazim İsmayılov adına 80N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.376389, 49.857222], { icon: dropIcon })
+    .bindPopup(`<b>İlyas Əfəndiyev adına Elitar Gimnaziya</b><br/>Lat 40.376389, Lon 49.857222`)
+    .bindTooltip(`İlyas Əfəndiyev adına Elitar Gimnaziya`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.358611, 50.079167], { icon: dropIcon })
+    .bindPopup(`<b>Elçin Qaranzadə adına 270N-li tam orta məktəb</b><br/>Lat 40.358611, Lon 50.079167`)
+    .bindTooltip(`Elçin Qaranzadə adına 270N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+
+  L.marker([40.36576041058372, 49.963979353713505], { icon: dropIcon })
+    .bindPopup(`<b>Ceyhun Həsənov adına 48N-li tam orta məktəb</b><br/>Lat 40.36576041058372, Lon 49.963979353713505`)
+    .bindTooltip(`Ceyhun Həsənov adına 48N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+
+  L.marker([41.699444, 46.379722], { icon: dropIcon })
+    .bindPopup(`<b>Balakən rayon Qazbinə kənd tam orta məktəbi</b><br/>Lat 41.699444, Lon 46.379722`)
+    .bindTooltip(`Balakən rayon Qazbinə kənd tam orta məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.390000, 49.834444], { icon: dropIcon })
+    .bindPopup(`<b>Heydər Əliyev adına Müasir Təhsil Kompleksi (Nəsimi, Bakı)</b><br/>Lat 40.390000, Lon 49.834444`)
+    .bindTooltip(`Heydər Əliyev adına Müasir Təhsil Kompleksi (Nəsimi, Bakı)`, { sticky: true })
+    .addTo(schoolsLayer);
+
+
+  L.marker([40.3483045753251, 49.8352077345176], { icon: dropIcon })
+    .bindPopup(`<b>Bakı Şəhəri 91 N-li tam orta məktəb</b><br/>Lat 40.3483045753251, Lon 49.8352077345176`)
+    .bindTooltip(`Bakı Şəhəri 91 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.3913648162046, 49.9628103248014], { icon: dropIcon })
+    .bindPopup(`<b>Humanitar fənlər təmayüllü lisey</b><br/>Lat 40.3913648162046, Lon 49.9628103248014`)
+    .bindTooltip(`Humanitar fənlər təmayüllü lisey`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([39.9592587932711, 48.941848348769], { icon: dropIcon })
+    .bindPopup(`<b>Şirvan şəhəri Elçin İmanov adına 10N-li tam orta məktəb</b><br/>Lat 39.9592587932711, Lon 48.941848348769`)
+    .bindTooltip(`Şirvan şəhəri Elçin İmanov adına 10N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.4179124014801, 49.9961365098196], { icon: dropIcon })
+    .bindPopup(`<b>Abil Səfərov adına 114 N-li tam orta məktəb</b><br/>Lat 40.4179124014801, Lon 49.9961365098196`)
+    .bindTooltip(`Abil Səfərov adına 114 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5220700597078, 50.1002414858999], { icon: dropIcon })
+    .bindPopup(`<b>İftixar Tağıyev adına 26 N-li tam orta məktəb</b><br/>Lat 40.5220700597078, Lon 50.1002414858999`)
+    .bindTooltip(`İftixar Tağıyev adına 26 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([38.455194, 48.871389], { icon: dropIcon })
+    .bindPopup(`<b>Rasim Camalov adına 7 N-li tam orta məktəb</b><br/>Lat 38.455194, Lon 48.871389`)
+    .bindTooltip(`Rasim Camalov adına 7 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([39.9390048479882, 48.3681749232652], { icon: dropIcon })
+    .bindPopup(`<b>Valeri Əsgərov adına 4 N-li tam orta məktəb</b><br/>Lat 39.9390048479882, Lon 48.3681749232652`)
+    .bindTooltip(`Valeri Əsgərov adına 4 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.4327709934995, 49.7639382802284], { icon: dropIcon })
+    .bindPopup(`<b>Elşən Sultanov adına 217 N-li tam orta məktəb</b><br/>Lat 40.4327709934995, Lon 49.7639382802284`)
+    .bindTooltip(`Elşən Sultanov adına 217 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.490638900702, 50.1288097728133], { icon: dropIcon })
+    .bindPopup(`<b>F.Gözəlov adına 124 N-li tam orta məktəb</b><br/>Lat 40.490638900702, Lon 50.1288097728133`)
+    .bindTooltip(`F.Gözəlov adına 124 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.3686914787228, 49.8263667234132], { icon: dropIcon })
+    .bindPopup(`<b>2 N-li Texniki-Humanitar lisey</b><br/>Lat 40.3686914787228, Lon 49.8263667234132`)
+    .bindTooltip(`2 N-li Texniki-Humanitar lisey`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.4003550679844, 49.8736177541014], { icon: dropIcon })
+    .bindPopup(`<b>M.Şəhriyar adına 193 N-li tam orta məktəb</b><br/>Lat 40.4003550679844, Lon 49.8736177541014`)
+    .bindTooltip(`M.Şəhriyar adına 193 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.4577325398069, 49.9199196541045], { icon: dropIcon })
+    .bindPopup(`<b>Sabir adına 259 N-li tam orta məktəb</b><br/>Lat 40.4577325398069, Lon 49.9199196541045`)
+    .bindTooltip(`Sabir adına 259 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([38.8539814524237, 48.7571307247063], { icon: dropIcon })
+    .bindPopup(`<b>Rasif İbradov adına Cil kənd tam orta məktəb</b><br/>Lat 38.8539814524237, Lon 48.7571307247063`)
+    .bindTooltip(`Rasif İbradov adına Cil kənd tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.4507666975172, 50.0872242445759], { icon: dropIcon })
+    .bindPopup(`<b>Elçin Şəmiyev adına 149 N-li tam orta məktəb</b><br/>Lat 40.4507666975172, Lon 50.0872242445759`)
+    .bindTooltip(`Elçin Şəmiyev adına 149 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([39.9942259322515, 48.7404897466699], { icon: dropIcon })
+    .bindPopup(`<b>Sabir Ağayev adına Axtaçı-Muğan kənd tam orta məktəbi</b><br/>Lat 39.9942259322515, Lon 48.7404897466699`)
+    .bindTooltip(`Sabir Ağayev adına Axtaçı-Muğan kənd tam orta məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.9608526147738, 47.5145307099519], { icon: dropIcon })
+    .bindPopup(`<b>Padar kənd tam orta məktəb</b><br/>Lat 40.9608526147738, Lon 47.5145307099519`)
+    .bindTooltip(`Padar kənd tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([38.7588548504405, 48.8479113280793], { icon: dropIcon })
+    .bindPopup(`<b>Teymur bəy Bayraməlibəyov adına 2 N-li tam orta məktəb</b><br/>Lat 38.7588548504405, Lon 48.8479113280793`)
+    .bindTooltip(`Teymur bəy Bayraməlibəyov adına 2 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.391242, 49.860547], { icon: dropIcon })
+    .bindPopup(`<b>202 N-li tam orta məktəb</b><br/>Lat 40.391242, Lon 49.860547`)
+    .bindTooltip(`202 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([39.9502356460629, 49.4106208690445], { icon: dropIcon })
+    .bindPopup(`<b>Əhməd Zeynallı adına 302 N-li tam orta məktəb</b><br/>Lat 39.9502356460629, Lon 49.4106208690445`)
+    .bindTooltip(`Əhməd Zeynallı adına 302 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([38.8593428334632, 48.742142096347], { icon: dropIcon })
+    .bindPopup(`<b>Asif Əsədullayev adına Şağlaser kənd tam orta məktəb</b><br/>Lat 38.8593428334632, Lon 48.742142096347`)
+    .bindTooltip(`Asif Əsədullayev adına Şağlaser kənd tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([38.7389895121736, 48.8295795713444], { icon: dropIcon })
+    .bindPopup(`<b>Azad Babayev adına 8 N-li tam orta məktəb</b><br/>Lat 38.7389895121736, Lon 48.8295795713444`)
+    .bindTooltip(`Azad Babayev adına 8 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.3943625494873, 49.8382306786385], { icon: dropIcon })
+    .bindPopup(`<b>42 N-li tam orta məktəb</b><br/>Lat 40.3943625494873, Lon 49.8382306786385`)
+    .bindTooltip(`42 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.79867696686, 48.1521135954983], { icon: dropIcon })
+    .bindPopup(`<b>Uşaq Gənclər İnkişaf Mərkəzi</b><br/>Lat 40.79867696686, Lon 48.1521135954983`)
+    .bindTooltip(`Uşaq Gənclər İnkişaf Mərkəzi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([41.1211360343716, 45.465680365781], { icon: dropIcon })
+    .bindPopup(`<b>Elçin Mustafayev adına Yenigün kənd tam orta ümumtəhsil məktəbi</b><br/>Lat 41.1211360343716, Lon 45.465680365781`)
+    .bindTooltip(`Elçin Mustafayev adına Yenigün kənd tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.4429808799944, 49.9471041541038], { icon: dropIcon })
+    .bindPopup(`<b>Bakı şəhəri 170 N-li tam orta məktəb</b><br/>Lat 40.4429808799944, Lon 49.9471041541038`)
+    .bindTooltip(`Bakı şəhəri 170 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.435654529016, 49.9722673117751], { icon: dropIcon })
+    .bindPopup(`<b>Bakı şəhəri 208 N-li tam orta məktəb</b><br/>Lat 40.435654529016, Lon 49.9722673117751`)
+    .bindTooltip(`Bakı şəhəri 208 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([39.9541953042409, 48.9402070491084], { icon: dropIcon })
+    .bindPopup(`<b>Nofəl Quliyev adına 9 N-li tam orta məktəb</b><br/>Lat 39.9541953042409, Lon 48.9402070491084`)
+    .bindTooltip(`Nofəl Quliyev adına 9 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([39.9559391927571, 48.9483279969678], { icon: dropIcon })
+    .bindPopup(`<b>Bəhruz Aslanov adına 16 N-li tam orta məktəb</b><br/>Lat 39.9559391927571, Lon 48.9483279969678`)
+    .bindTooltip(`Bəhruz Aslanov adına 16 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([39.9370693149368, 48.9172569350636], { icon: dropIcon })
+    .bindPopup(`<b>Şirvan şəhəri 13 N-li tam orta məktəb</b><br/>Lat 39.9370693149368, Lon 48.9172569350636`)
+    .bindTooltip(`Şirvan şəhəri 13 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([39.9356780494386, 48.9231203972238], { icon: dropIcon })
+    .bindPopup(`<b>Şirvan şəhəri 2 N-li tam orta məktəb</b><br/>Lat 39.9356780494386, Lon 48.9231203972238`)
+    .bindTooltip(`Şirvan şəhəri 2 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.040860638969, 48.927294498866], { icon: dropIcon })
+    .bindPopup(`<b>Hacıqabul şəhəri 9 N-li tam orta məktəb</b><br/>Lat 40.040860638969, Lon 48.927294498866`)
+    .bindTooltip(`Hacıqabul şəhəri 9 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([41.3778704452186, 48.7447956292935], { icon: dropIcon })
+    .bindPopup(`<b>Qaracik-Zeyid kənd tam orta məktəb</b><br/>Lat 41.3778704452186, Lon 48.7447956292935`)
+    .bindTooltip(`Qaracik-Zeyid kənd tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5832377069721, 49.6704182806494], { icon: dropIcon })
+    .bindPopup(`<b>Sumqayıt şəhəri 23 N-li texniki fənlər təmayüllü lisey</b><br/>Lat 40.5832377069721, Lon 49.6704182806494`)
+    .bindTooltip(`Sumqayıt şəhəri 23 N-li texniki fənlər təmayüllü lisey`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.58303904216, 49.6838974117828], { icon: dropIcon })
+    .bindPopup(`<b>M.Füzuli adına 15 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.58303904216, Lon 49.6838974117828`)
+    .bindTooltip(`M.Füzuli adına 15 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5800236676419, 49.6763228007711], { icon: dropIcon })
+    .bindPopup(`<b>Adil İbrahimli adına 14 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.5800236676419, Lon 49.6763228007711`)
+    .bindTooltip(`Adil İbrahimli adına 14 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5920750356235, 49.6719549691248], { icon: dropIcon })
+    .bindPopup(`<b>İsmət Qayıbov adına 1 N-li ümumtəhsil tam orta məktəbi</b><br/>Lat 40.5920750356235, Lon 49.6719549691248`)
+    .bindTooltip(`İsmət Qayıbov adına 1 N-li ümumtəhsil tam orta məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5774283227763, 49.6702034057115], { icon: dropIcon })
+    .bindPopup(`<b>Cəlil Səfərov adına 10 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.5774283227763, Lon 49.6702034057115`)
+    .bindTooltip(`Cəlil Səfərov adına 10 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5948253061642, 49.6743312372591], { icon: dropIcon })
+    .bindPopup(`<b>11 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.5948253061642, Lon 49.6743312372591`)
+    .bindTooltip(`11 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5996323637766, 49.670990752261], { icon: dropIcon })
+    .bindPopup(`<b>Nəsrəddin Tusi adına 12 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.5996323637766, Lon 49.670990752261`)
+    .bindTooltip(`Nəsrəddin Tusi adına 12 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.6166219294062, 49.5618115117845], { icon: dropIcon })
+    .bindPopup(`<b>Sumqayıt şəhər 19 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.6166219294062, Lon 49.5618115117845`)
+    .bindTooltip(`Sumqayıt şəhər 19 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5628056003554, 49.7150701592774], { icon: dropIcon })
+    .bindPopup(`<b>Sumqayıt şəhəri 2 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.5628056003554, Lon 49.7150701592774`)
+    .bindTooltip(`Sumqayıt şəhəri 2 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5701187413966, 49.6851609818203], { icon: dropIcon })
+    .bindPopup(`<b>Sumqayıt şəhəri 22 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.5701187413966, Lon 49.6851609818203`)
+    .bindTooltip(`Sumqayıt şəhəri 22 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5944642006309, 49.6677590252758], { icon: dropIcon })
+    .bindPopup(`<b>Təbiət elmləri təmayüllü gimnaziya</b><br/>Lat 40.5944642006309, Lon 49.6677590252758`)
+    .bindTooltip(`Təbiət elmləri təmayüllü gimnaziya`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5714327905355, 49.6815964310692], { icon: dropIcon })
+    .bindPopup(`<b>Məhəmməd Əsədov adına İnteqrasiya təlimli internat tipli gimnaziya</b><br/>Lat 40.5714327905355, Lon 49.6815964310692`)
+    .bindTooltip(`Məhəmməd Əsədov adına İnteqrasiya təlimli internat tipli gimnaziya`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.4961956598264, 49.7457432496612], { icon: dropIcon })
+    .bindPopup(`<b>Sumqayıt şəhəri 7 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.4961956598264, Lon 49.7457432496612`)
+    .bindTooltip(`Sumqayıt şəhəri 7 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5901762282469, 49.679015867604], { icon: dropIcon })
+    .bindPopup(`<b>Abşeron-Xızı Regional Təhsil İdarəsi</b><br/>Lat 40.5901762282469, Lon 49.679015867604`)
+    .bindTooltip(`Abşeron-Xızı Regional Təhsil İdarəsi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5547331940674, 49.6100595964379], { icon: dropIcon })
+    .bindPopup(`<b>Sumqayıt şəhəri 43 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.5547331940674, Lon 49.6100595964379`)
+    .bindTooltip(`Sumqayıt şəhəri 43 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.6149520980693, 49.5513102518528], { icon: dropIcon })
+    .bindPopup(`<b>Sumqayit şəhəri 40 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.6149520980693, Lon 49.5513102518528`)
+    .bindTooltip(`Sumqayit şəhəri 40 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5620293542648, 49.7037076603229], { icon: dropIcon })
+    .bindPopup(`<b>Sumqayit şəhəri 4 N-li tam orta məktəb</b><br/>Lat 40.5620293542648, Lon 49.7037076603229`)
+    .bindTooltip(`Sumqayit şəhəri 4 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5620644643689, 49.7021647549669], { icon: dropIcon })
+    .bindPopup(`<b>Sumqayit şəhəri 39 N-li tam orta ümumtəhsil məktəb</b><br/>Lat 40.5620644643689, Lon 49.7021647549669`)
+    .bindTooltip(`Sumqayit şəhəri 39 N-li tam orta ümumtəhsil məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.598892286836, 49.6630417261034], { icon: dropIcon })
+    .bindPopup(`<b>Sumqayit şəhəri 38 N-li  tam orta  məktəb</b><br/>Lat 40.598892286836, Lon 49.6630417261034`)
+    .bindTooltip(`Sumqayit şəhəri 38 N-li  tam orta  məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5613102031936, 49.6906535100241], { icon: dropIcon })
+    .bindPopup(`<b>Şah İsamyıl Xətai adına 30 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.5613102031936, Lon 49.6906535100241`)
+    .bindTooltip(`Şah İsamyıl Xətai adına 30 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.6230717651199, 49.5608658347515], { icon: dropIcon })
+    .bindPopup(`<b>Mətləb Quliyev adına 3 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.6230717651199, Lon 49.5608658347515`)
+    .bindTooltip(`Mətləb Quliyev adına 3 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5725946625351, 49.6722420097882], { icon: dropIcon })
+    .bindPopup(`<b>Tofiq İsmayılov adına 29 N-li tam orta ümumtəhsil məktəbi</b><br/>Lat 40.5725946625351, Lon 49.6722420097882`)
+    .bindTooltip(`Tofiq İsmayılov adına 29 N-li tam orta ümumtəhsil məktəbi`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5663621252662, 49.6922041022185], { icon: dropIcon })
+    .bindPopup(`<b>Polad Həşimov adına 28 N-li tam orta məktəb</b><br/>Lat 40.5663621252662, Lon 49.6922041022185`)
+    .bindTooltip(`Polad Həşimov adına 28 N-li tam orta məktəb`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  L.marker([40.5851075698872, 49.6767325588328], { icon: dropIcon })
+    .bindPopup(`<b>Anar Şükürov adına 25 N-li tam orta</b><br/>Lat 40.5851075698872, Lon 49.6767325588328`)
+    .bindTooltip(`Anar Şükürov adına 25 N-li tam orta`, { sticky: true })
+    .addTo(schoolsLayer);
+
+  schoolsLayer.addTo(map);
+
+  const overlayControl = {
+    "Kura River (highlight)": kuraRiver,
+    "Schools (all participating)": schoolsLayer,
+    "Normal water level": normalLayer,
+    "Place labels": esriLabels
+  };
+
+
+  L.control.layers(
+    {
+      "Satellite (Earth-style)": esriSat,
+      "OpenStreetMap": osm
+    },
+    overlayControl,
+    { collapsed: false }
+  ).addTo(map);
+
+  // Default: satellite + labels ON
+  esriLabels.addTo(map);
+</script>
+
+</body>
+</html>
