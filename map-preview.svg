@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540">
+  <rect width="900" height="540" rx="26" fill="#0b1220"/>
+  <g opacity="0.22">
+    <path d="M0 90H900" stroke="#e5e7eb"/>
+    <path d="M0 180H900" stroke="#e5e7eb"/>
+    <path d="M0 270H900" stroke="#e5e7eb"/>
+    <path d="M0 360H900" stroke="#e5e7eb"/>
+    <path d="M0 450H900" stroke="#e5e7eb"/>
+    <path d="M150 0V540" stroke="#e5e7eb"/>
+    <path d="M300 0V540" stroke="#e5e7eb"/>
+    <path d="M450 0V540" stroke="#e5e7eb"/>
+    <path d="M600 0V540" stroke="#e5e7eb"/>
+    <path d="M750 0V540" stroke="#e5e7eb"/>
+  </g>
+  <path d="M60 170 C 160 90, 260 240, 370 190 C 480 135, 570 310, 690 250 C 780 204, 825 290, 860 250" fill="none" stroke="#60a5fa" stroke-width="10" stroke-linecap="round" opacity="0.9"/>
+  <g>
+    <circle cx="370" cy="190" r="9" fill="#22c55e"/>
+    <circle cx="690" cy="250" r="9" fill="#22c55e"/>
+    <circle cx="860" cy="250" r="9" fill="#d64545"/>
+    <circle cx="160" cy="90" r="9" fill="#d64545"/>
+  </g>
+  <text x="36" y="508" fill="#9aa4b2" font-family="system-ui,Segoe UI,Roboto" font-size="16">Interactive maps: schools + danger zones</text>
+</svg>
