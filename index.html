@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kura River Project</title>
+  <meta name="description" content="Student-led environmental initiative documenting research, progress, and an interactive map of Kura River risk zones." />
+  <meta name="theme-color" content="#0f3d5e" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/logo.png" type="image/svg+xml" />
+</head>
+<body>
+  <a class="skip-link" href="#home" data-i18n="skip">Skip to content</a>
+
+  <header class="site-header" id="top">
+    <nav class="nav container" aria-label="Primary">
+      <a class="brand" href="#home" aria-label="Kura River Project">
+        <span class="brand-mark" aria-hidden="true"><img src="assets/logo.png" alt="" width="22" height="22" style="display:block"/></span>
+        <span class="brand-text">Kura River Project</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <div class="nav-links" id="navLinks">
+        <a class="nav-link" href="#home" data-section="home" data-i18n="nav_home">Home</a>
+        <a class="nav-link" href="#progress" data-section="progress" data-i18n="nav_progress">Progress</a>
+        <a class="nav-link" href="#research" data-section="research" data-i18n="nav_research">Research</a>
+        <a class="nav-link" href="#map" data-section="map" data-i18n="nav_map">Map</a>
+        <a class="nav-link" href="#team" data-section="team" data-i18n="nav_team">School / Team</a>
+        <a class="nav-link" href="#contact" data-section="contact" data-i18n="nav_contact">Contact</a>
+        <a class="nav-link nav-cta" href="#volunteer" data-section="volunteer" data-i18n="nav_volunteer">Volunteer Signup</a>
+      </div>
+
+      <div class="lang-toggle" role="group" aria-label="Language toggle">
+        <button class="lang-btn" id="langEN" type="button">EN</button>
+        <span class="lang-sep" aria-hidden="true">|</span>
+        <button class="lang-btn" id="langAZ" type="button">AZ</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="section hero">
+      <div class="hero-bg" role="img" aria-label="Kura River photo"></div>
+      <div class="container hero-content">
+        <div class="hero-copy">
+          <p class="kicker" data-i18n="home_kicker">Student environmental initiative</p>
+          <h1 data-i18n="home_title">Protecting the Kura River through research, mapping, and action.</h1>
+          <p class="lead" data-i18n="home_subtitle">
+            The Kura River basin faces drought pressure, water stress, and ecosystem risks. We document what’s happening,
+            publish an interactive map, and recruit volunteers globally to help.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#map" data-i18n="cta_view_map">View Map</a>
+            <a class="btn ghost" href="#volunteer" data-i18n="cta_become_volunteer">Become a Volunteer</a>
+          </div>
+        </div>
+
+        <div class="hero-cards" aria-label="What we do">
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">🔬</div>
+            <h3 data-i18n="wtd_research_title">Research</h3>
+            <p data-i18n="wtd_research_desc">Collect and summarize credible sources, field notes, and data indicators.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">🗺️</div>
+            <h3 data-i18n="wtd_mapping_title">Mapping</h3>
+            <p data-i18n="wtd_mapping_desc">Publish risk zones and key locations in a clear, interactive map.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">📣</div>
+            <h3 data-i18n="wtd_awareness_title">Awareness</h3>
+            <p data-i18n="wtd_awareness_desc">Share findings in a way schools and communities can use quickly.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">🤝</div>
+            <h3 data-i18n="wtd_network_title">Volunteer Network</h3>
+            <p data-i18n="wtd_network_desc">Coordinate students and professionals across countries and time zones.</p>
+          </article>
+        </div>
+
+        <div class="facts" role="region" aria-label="Quick facts">
+          <div class="fact">
+            <div class="fact-num">62</div>
+            <div class="fact-label">Participating schools on the map</div>
+          </div>
+          <div class="fact">
+            <div class="fact-num">2</div>
+            <div class="fact-label">Interactive map views (Schools + Danger Zones)</div>
+          </div>
+          <div class="fact">
+            <div class="fact-num">8</div>
+            <div class="fact-label">Monitoring / reference points (current)</div>
+          </div>
+        </div>
+
+        <div class="photo-row" aria-label="Kura River images">
+          <figure class="photo">
+            <img src="assets/river-1.svg" alt="Stylized Kura River landscape illustration" loading="lazy" />
+            <figcaption data-i18n="photo_1">Kura River — overview (illustration)</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="assets/river-2.svg" alt="Stylized river and hills illustration" loading="lazy" />
+            <figcaption data-i18n="photo_2">Kura River — valleys & hills (illustration)</figcaption>
+          </figure>
+          <figure class="photo">
+            <img src="assets/river-3.svg" alt="Stylized river delta illustration" loading="lazy" />
+            <figcaption data-i18n="photo_3">Kura River — delta & wetlands (illustration)</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="progress" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="progress_title">Progress</h2>
+          <p class="muted" data-i18n="progress_subtitle">A clear timeline of what we shipped, what’s underway, and what’s next.</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <h3 data-i18n="timeline_title">Timeline</h3>
+            <ol class="timeline" aria-label="Project timeline">
+              <li class="timeline-item">
+                <div class="timeline-meta">
+                  <span class="date">2025-—</span>
+                  <span class="tag done" data-i18n="tag_done">Done</span>
+                </div>
+                <div class="timeline-body" data-i18n="tl_1">First interactive map prototype published.</div>
+              </li>
+              <li class="timeline-item">
+                <div class="timeline-meta">
+                  <span class="date">2026-01</span>
+                  <span class="tag progress" data-i18n="tag_in_progress">In progress</span>
+                </div>
+                <div class="timeline-body" data-i18n="tl_2">Refine danger zones and add school participation layer.</div>
+              </li>
+              <li class="timeline-item">
+                <div class="timeline-meta">
+                  <span class="date">Next</span>
+                  <span class="tag next" data-i18n="tag_next">Next</span>
+                </div>
+                <div class="timeline-body" data-i18n="tl_3">Collect structured volunteer submissions and publish monthly updates.</div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="panel">
+            <h3 data-i18n="next30_title">Next 30 days</h3>
+            <ul class="checklist" aria-label="Next 30 days checklist">
+              <li><input type="checkbox" disabled /> <span data-i18n="n30_1">Validate locations and labels with references.</span></li>
+              <li><input type="checkbox" disabled /> <span data-i18n="n30_2">Add 1–2 new map layers (placeholder).</span></li>
+              <li><input type="checkbox" disabled /> <span data-i18n="n30_3">Recruit volunteers for GIS + translation.</span></li>
+              <li><input type="checkbox" disabled /> <span data-i18n="n30_4">Publish a short public research brief (placeholder PDF).</span></li>
+              <li><input type="checkbox" disabled /> <span data-i18n="n30_5">Contact additional schools to join the project.</span></li>
+            </ul>
+
+            <div class="metrics" aria-label="Metrics">
+              <div class="metric">
+                <div class="metric-num">—</div>
+                <div class="metric-label" data-i18n="m_volunteers">Volunteers</div>
+              </div>
+              <div class="metric">
+                <div class="metric-num">—</div>
+                <div class="metric-label" data-i18n="m_datasets">Datasets collected</div>
+              </div>
+              <div class="metric">
+                <div class="metric-num">—</div>
+                <div class="metric-label" data-i18n="m_layers">Map layers</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="research" class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="research_title">Research</h2>
+          <p class="muted" data-i18n="research_subtitle">Structured notes you can scan quickly. Replace placeholders as you publish.</p>
+        </div>
+
+        <div class="research-grid">
+          <article class="panel">
+            <h3 data-i18n="rs_bg_title">Background</h3>
+            <p data-i18n="rs_bg">The Kura River basin supports communities, agriculture, and ecosystems across the region. In recent years, drought pressure and reduced flows have increased concern.</p>
+          </article>
+          <article class="panel">
+            <h3 data-i18n="rs_problem_title">Problem</h3>
+            <p data-i18n="rs_problem">We focus on water stress indicators, low-flow sections, and risk zones that are visible, measurable, or reported by credible sources.</p>
+          </article>
+          <article class="panel">
+            <h3 data-i18n="rs_method_title">Methodology</h3>
+            <ul class="bullets">
+              <li data-i18n="rs_m1">Collect sources (reports, news, official data).</li>
+              <li data-i18n="rs_m2">Convert observations into map points/layers.</li>
+              <li data-i18n="rs_m3">Keep labels conservative and transparent (what we know vs. what’s pending).</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <h3 data-i18n="rs_findings_title">Findings so far</h3>
+            <ul class="bullets">
+              <li data-i18n="rs_f1">Lower Kura sections can show stronger low-flow/salinity risk during drought periods (placeholder wording).</li>
+              <li data-i18n="rs_f2">Some zones require additional validation before we label severity (placeholder).</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="panel">
+          <h3 data-i18n="sources_title">Sources (placeholders)</h3>
+          <ul class="links">
+            <li><a href="#" target="_blank" rel="noreferrer">Source link 1</a></li>
+            <li><a href="#" target="_blank" rel="noreferrer">Source link 2</a></li>
+            <li><a href="#" target="_blank" rel="noreferrer">Source link 3</a></li>
+            <li><a href="#" target="_blank" rel="noreferrer">Source link 4</a></li>
+            <li><a href="#" target="_blank" rel="noreferrer">Source link 5</a></li>
+            <li><a href="#" target="_blank" rel="noreferrer">Source link 6</a></li>
+          </ul>
+
+          <div class="download-row">
+            <button class="btn secondary" type="button" data-i18n="dl_brief">Download PDF brief (placeholder)</button>
+            <button class="btn secondary" type="button" data-i18n="dl_dataset">Download dataset (placeholder)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="map" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="map_title">Map</h2>
+          <p class="muted">Two live views: <b>Participating Schools</b> and <b>Danger Zones</b>. Use the selector inside the map to switch.</p>
+        </div>
+
+        <div class="map-layout">
+          <aside class="panel map-panel" aria-label="Map info panel">
+            <h3>Maps</h3>
+
+            <div class="mini-cta" style="display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 14px">
+              <a class="btn primary" href="map/index.html" target="_blank" rel="noreferrer">Open interactive maps</a>
+              <a class="btn ghost" href="map/schools.html" target="_blank" rel="noreferrer">Schools only</a>
+              <a class="btn ghost" href="map/danger.html" target="_blank" rel="noreferrer">Danger zones only</a>
+            </div>
+
+            <img src="assets/map-preview.svg" alt="Preview illustration of the Kura River maps" style="width:100%;border-radius:14px;border:1px solid rgba(15,23,42,.10);background:#0b1220" loading="lazy"/>
+
+            <div class="muted" style="margin-top:10px">
+              <ul class="bullets" style="margin:0;padding-left:18px">
+                <li><b>Schools</b>: participating schools marked with blue drops.</li>
+                <li><b>Danger zones</b>: low-water / stress points (red) + normal reference point (green).</li>
+              </ul>
+            </div>
+
+            <h3 data-i18n="howread_title">How to read this map</h3>
+            <p class="muted" data-i18n="howread">
+              Use the layer toggles to focus on one signal at a time. Click a marker to see why it was added and what evidence supports it.
+              If something is unverified, we label it clearly as “pending validation”.
+            </p>
+
+            <div class="mini-cta">
+              <a class="btn primary" href="#volunteer" data-i18n="cta_join_map">Help improve the map</a>
+            </div>
+          </aside>
+
+          <div class="map-embed" aria-label="Map embed">
+            <iframe id="mapFrame" title="Kura River interactive map" src="map/index.html" loading="lazy" referrerpolicy="no-referrer"></iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="team_title">School / Team</h2>
+          <p class="muted" data-i18n="team_subtitle">Who runs the project (placeholders you can replace).</p>
+        </div>
+
+        <div class="school-box">
+          <div>
+            <div class="label" data-i18n="school_label">School</div>
+            <div class="value">Heydər Əliyev adına Müasir Təhsil Kompleksi</div>
+          </div>
+          <div>
+            <div class="label" data-i18n="city_label">City</div>
+            <div class="value">Baku</div>
+          </div>
+          <div>
+            <div class="label" data-i18n="country_label">Country</div>
+            <div class="value">Azerbaijan</div>
+          </div>
+          <div>
+            <div class="label" data-i18n="advisor_label">Advisor / Mentor</div>
+            <div class="value" data-i18n="advisor_placeholder">Name (placeholder)</div>
+          </div>
+        </div>
+
+        <div class="team-grid" aria-label="Team members">
+          <article class="card member">
+            <div class="avatar" aria-hidden="true">🧑‍🎓</div>
+            <h3 data-i18n="role_leader">Leader</h3>
+            <p class="muted" data-i18n="member_placeholder">Name (placeholder)</p>
+          </article>
+          <article class="card member">
+            <div class="avatar" aria-hidden="true">📚</div>
+            <h3 data-i18n="role_research">Research</h3>
+            <p class="muted" data-i18n="member_placeholder">Name (placeholder)</p>
+          </article>
+          <article class="card member">
+            <div class="avatar" aria-hidden="true">🧭</div>
+            <h3 data-i18n="role_gis">GIS</h3>
+            <p class="muted" data-i18n="member_placeholder">Name (placeholder)</p>
+          </article>
+          <article class="card member">
+            <div class="avatar" aria-hidden="true">📢</div>
+            <h3 data-i18n="role_outreach">Outreach</h3>
+            <p class="muted" data-i18n="member_placeholder">Name (placeholder)</p>
+          </article>
+          <article class="card member">
+            <div class="avatar" aria-hidden="true">💻</div>
+            <h3 data-i18n="role_web">Web</h3>
+            <p class="muted" data-i18n="member_placeholder">Name (placeholder)</p>
+          </article>
+        </div>
+
+        <div class="panel">
+          <h3 data-i18n="why_students_title">Why students can help</h3>
+          <p data-i18n="why_students">
+            Students can move fast: gather observations, translate information, and build clear public tools.
+            Our role is not to replace experts—it's to make signals visible, organized, and easier to act on.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="contact_title">Contact</h2>
+          <p class="muted" data-i18n="contact_subtitle">Send a message. We’ll reply as soon as possible.</p>
+        </div>
+
+        <div class="grid-2">
+          <form class="panel form" id="contactForm" novalidate>
+            <div class="field">
+              <label for="c_name" data-i18n="f_name">Name</label>
+              <input id="c_name" name="name" type="text" required />
+              <small class="error" data-error-for="c_name"></small>
+            </div>
+            <div class="field">
+              <label for="c_email" data-i18n="f_email">Email</label>
+              <input id="c_email" name="email" type="email" required />
+              <small class="error" data-error-for="c_email"></small>
+            </div>
+            <div class="field">
+              <label for="c_msg" data-i18n="f_message">Message</label>
+              <textarea id="c_msg" name="message" rows="5" required></textarea>
+              <small class="error" data-error-for="c_msg"></small>
+            </div>
+            <button class="btn primary" type="submit" data-i18n="send_message">Send message</button>
+            <p class="form-note muted" id="contactSuccess" hidden data-i18n="contact_success">
+              Thanks — your message is captured locally for now. (Hook this to a real form endpoint later.)
+            </p>
+          </form>
+
+          <div class="panel">
+            <h3 data-i18n="contact_info_title">Project contacts</h3>
+            <p class="muted contact-email"><span data-i18n="email_label">Email:</span> <a href="mailto:savemotherkura@motherkura.com"><strong>savemotherkura@motherkura.com</strong></a></p>
+
+            <div class="social" aria-label="Project social links">
+              <a class="social-link" href="https://www.instagram.com/mother_kura/" target="_blank" rel="noreferrer">Instagram</a>
+              <a class="social-link" href="https://x.com/RiverKura" target="_blank" rel="noreferrer">X</a>
+              <a class="social-link" href="https://www.threads.com/@mother_kura?xmt=AQF0CLagXScjLpnCgOSN8SSadq09T4V98U8WDmA-AXNWFQE" target="_blank" rel="noreferrer">Threads</a>
+            </div>
+
+            <div class="panel-note muted" data-i18n="contact_note">
+              Tip: for real form delivery, connect to Formspree / Getform / Google Forms and replace the form action.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="volunteer" class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <h2 data-i18n="vol_title">Volunteer Signup</h2>
+          <p class="muted" data-i18n="vol_subtitle">Join the global volunteer network. We’ll coordinate work in small, clear tasks.</p>
+        </div>
+
+        <form class="panel form" id="volunteerForm" novalidate>
+          <div class="grid-2">
+            <div class="field">
+              <label for="v_full" data-i18n="v_fullname">Full Name</label>
+              <input id="v_full" name="fullName" type="text" required />
+              <small class="error" data-error-for="v_full"></small>
+            </div>
+            <div class="field">
+              <label for="v_email" data-i18n="v_email">Email</label>
+              <input id="v_email" name="email" type="email" required />
+              <small class="error" data-error-for="v_email"></small>
+            </div>
+            <div class="field">
+              <label for="v_city" data-i18n="v_city">Country / City</label>
+              <input id="v_city" name="location" type="text" required />
+              <small class="error" data-error-for="v_city"></small>
+            </div>
+            <div class="field">
+              <label for="v_tz" data-i18n="v_tz">Time zone</label>
+              <input id="v_tz" name="timezone" type="text" placeholder="e.g., UTC+4" required />
+              <small class="error" data-error-for="v_tz"></small>
+            </div>
+          </div>
+
+          <fieldset class="field">
+            <legend data-i18n="v_skills">Skills</legend>
+            <div class="checks">
+              <label><input type="checkbox" name="skills" value="GIS/Mapping" /> <span data-i18n="sk_gis">GIS/Mapping</span></label>
+              <label><input type="checkbox" name="skills" value="Data Analysis" /> <span data-i18n="sk_data">Data Analysis</span></label>
+              <label><input type="checkbox" name="skills" value="Research" /> <span data-i18n="sk_research">Research</span></label>
+              <label><input type="checkbox" name="skills" value="Social Media" /> <span data-i18n="sk_social">Social Media</span></label>
+              <label><input type="checkbox" name="skills" value="Outreach" /> <span data-i18n="sk_outreach">Outreach</span></label>
+              <label><input type="checkbox" name="skills" value="Design" /> <span data-i18n="sk_design">Design</span></label>
+              <label><input type="checkbox" name="skills" value="Development" /> <span data-i18n="sk_dev">Development</span></label>
+              <label><input type="checkbox" name="skills" value="Translation" /> <span data-i18n="sk_trans">Translation</span></label>
+            </div>
+          </fieldset>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="v_hours" data-i18n="v_avail">Availability (hours/week)</label>
+              <input id="v_hours" name="hours" type="number" min="1" max="40" required />
+              <small class="error" data-error-for="v_hours"></small>
+            </div>
+            <div class="field">
+              <label for="v_mot" data-i18n="v_motivation">Motivation</label>
+              <textarea id="v_mot" name="motivation" rows="4" required></textarea>
+              <small class="error" data-error-for="v_mot"></small>
+            </div>
+          </div>
+
+          <button class="btn primary" type="submit" data-i18n="v_submit">Submit</button>
+
+          <div class="success" id="volunteerSuccess" hidden>
+            <h3 data-i18n="v_success_title">Submitted — thank you.</h3>
+            <p class="muted" data-i18n="v_success_body">Next steps: we’ll email you within <strong>3–7 days</strong> with a short onboarding task list.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div class="muted footer-copy" data-i18n="footer_left">© <span id="year"></span> Kura River Project — student initiative.</div>
+        <div class="footer-socials" aria-label="Footer social links">
+          <a class="footer-social-link" href="https://www.instagram.com/mother_kura/" target="_blank" rel="noreferrer">Instagram</a>
+          <a class="footer-social-link" href="https://x.com/RiverKura" target="_blank" rel="noreferrer">X</a>
+          <a class="footer-social-link" href="https://www.threads.com/@mother_kura?xmt=AQF0CLagXScjLpnCgOSN8SSadq09T4V98U8WDmA-AXNWFQE" target="_blank" rel="noreferrer">Threads</a>
+          <a class="footer-social-link" href="mailto:savemotherkura@motherkura.com">Email</a>
+        </div>
+        <a class="to-top" href="#top" data-i18n="back_top">Back to top</a>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
