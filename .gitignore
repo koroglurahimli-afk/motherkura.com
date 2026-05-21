@@ -1,9 +1,0 @@
-# OS/editor junk
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
-
-# Local environment / dependencies
-.env
-node_modules/
